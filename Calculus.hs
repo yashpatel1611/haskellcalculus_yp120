@@ -29,24 +29,32 @@ instance Vars Double where
   y = 9.2
   z = -1.7
 
+
 --Added overloads below for mathematical expressions
+--Overloads for extension have been commented out
+--as they simplify the expression, thus making the diff
+--function fail the test
 instance Num Exp where
   fromInteger x = Val (fromIntegral x)
+  -- negate 0      = Val 0
   negate x      = UnApp Neg x
+  -- (+) 0 x       = x
+  -- (+) x 0       = x
   (+) x y       = BinApp Add x y
+  -- (*) 0 x       = Val 0
+  -- (*) x 0       = Val 0
+  -- (*) x 1       = x
+  -- (*) 1 x       = x
   (*) x y       = BinApp Mul x y
-  -- negate 0      = 0
-  -- (+) 0 x       = Val (fromIntegral x)
-  -- (+) x 0       = Val (fromIntegral x)
 -- Leave the following two undefined...
   signum      = undefined
   abs         = undefined
 
 instance Fractional Exp where
   fromRational x = Val (fromRational x)
-  (/) x y        = BinApp Div x y
   -- (/) 0 x       = 0
   -- (/) x 1       = x
+  (/) x y        = BinApp Div x y
 -- Leave the following one undefined...
   recip        = undefined
 
